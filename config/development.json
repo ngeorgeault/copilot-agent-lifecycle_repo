@@ -1,0 +1,51 @@
+/**
+ * File: development.json
+ * Description: Configuration pour l'environnement de développement
+ * Author: Microsoft Copilot Studio Team
+ * Date: 2025-11-11
+ * Version: 1.0.0
+ * License: MIT
+ * 
+ * Configuration spécifique pour l'environnement de développement local.
+ */
+
+{
+  "environment": "development",
+  "debug": true,
+  "logging": {
+    "level": "debug",
+    "console": true,
+    "file": true,
+    "path": "./logs/dev.log"
+  },
+  "api": {
+    "base_url": "http://localhost:3000",
+    "timeout": 30000,
+    "retry_attempts": 3
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "copilot_dev",
+    "ssl": false
+  },
+  "cache": {
+    "enabled": true,
+    "type": "memory",
+    "ttl": 300
+  },
+  "security": {
+    "cors": {
+      "enabled": true,
+      "origins": ["http://localhost:3000", "http://localhost:8080"]
+    },
+    "rate_limiting": {
+      "enabled": false
+    }
+  },
+  "features": {
+    "hot_reload": true,
+    "mock_integrations": true,
+    "debug_mode": true
+  }
+}

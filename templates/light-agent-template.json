@@ -1,0 +1,110 @@
+/**
+ * File: light-agent-template.json
+ * Description: Template Azure ARM pour déployer un Agent Light
+ * Author: Microsoft Copilot Studio Team
+ * Date: 2025-11-11
+ * Version: 1.0.0
+ * License: MIT
+ */
+
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "type": "string",
+      "defaultValue": "development",
+      "allowedValues": [
+        "development",
+        "staging",
+        "production"
+      ],
+      "metadata": {
+        "description": "Environnement de déploiement"
+      }
+    },
+    "region": {
+      "type": "string",
+      "defaultValue": "westeurope",
+      "metadata": {
+        "description": "Région Azure"
+      }
+    },
+    "agentName": {
+      "type": "string",
+      "defaultValue": "copilot-light-agent",
+      "metadata": {
+        "description": "Nom de l'agent"
+      }
+    }
+  },
+  "variables": {
+    "appServicePlanName": "[concat('asp-', parameters('agentName'), '-', parameters('environment'))]",
+    "webAppName": "[concat('app-', parameters('agentName'), '-', parameters('environment'))]",
+    "storageAccountName": "[concat('st', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-03-01",
+      "name": "[variables('appServicePlanName')]",
+      "location": "[parameters('region')]",
+      "sku": {
+        "name": "B1",
+        "tier": "Basic",
+        "capacity": 1
+      },
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-03-01",
+      "name": "[variables('webAppName')]",
+      "location": "[parameters('region')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+        "siteConfig": {
+          "linuxFxVersion": "NODE|18-lts",
+          "appSettings": [
+            {
+              "name": "ENVIRONMENT",
+              "value": "[parameters('environment')]"
+            },
+            {
+              "name": "AGENT_TYPE",
+              "value": "light"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('region')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot"
+      }
+    }
+  ],
+  "outputs": {
+    "webAppUrl": {
+      "type": "string",
+      "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('webAppName'))).defaultHostName)]"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    }
+  }
+}

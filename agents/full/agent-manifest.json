@@ -1,0 +1,125 @@
+/**
+ * File: agent-manifest.json
+ * Description: Manifest configuration for Microsoft Copilot Studio Full Agent
+ * Author: Microsoft Copilot Studio Team
+ * Date: 2025-11-11
+ * Version: 1.0.0
+ * License: MIT
+ * 
+ * This file defines the complete configuration for a Full version of a
+ * Microsoft Copilot Studio Agent with advanced enterprise capabilities.
+ */
+
+{
+  "schema_version": "1.0",
+  "agent": {
+    "id": "copilot-full-agent-001",
+    "name": "Copilot Full Agent",
+    "type": "full",
+    "version": "1.0.0",
+    "description": "A full-featured Microsoft Copilot Studio agent with enterprise capabilities",
+    "created_date": "2025-11-11",
+    "last_modified": "2025-11-11"
+  },
+  "capabilities": {
+    "natural_language": true,
+    "task_automation": true,
+    "custom_actions": true,
+    "multi_turn_conversation": true,
+    "context_retention": "persistent",
+    "advanced_analytics": true,
+    "integrations": true,
+    "custom_plugins": true
+  },
+  "configuration": {
+    "max_tokens": 4000,
+    "temperature": 0.7,
+    "response_format": "adaptive",
+    "language": "fr-FR",
+    "fallback_language": "en-US",
+    "streaming": true,
+    "function_calling": true
+  },
+  "knowledge_sources": [
+    {
+      "type": "dynamic",
+      "name": "Enterprise Knowledge Base",
+      "path": "/knowledge/enterprise"
+    },
+    {
+      "type": "api",
+      "name": "SharePoint Integration",
+      "endpoint": "https://api.sharepoint.com/v1"
+    },
+    {
+      "type": "database",
+      "name": "SQL Database",
+      "connection_string": "${SQL_CONNECTION_STRING}"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_ticket",
+      "name": "Create Support Ticket",
+      "type": "custom",
+      "endpoint": "/api/tickets/create",
+      "parameters": ["title", "description", "priority"]
+    },
+    {
+      "id": "search_documents",
+      "name": "Search Documents",
+      "type": "plugin",
+      "plugin_id": "document-search-v1"
+    }
+  ],
+  "triggers": [
+    {
+      "type": "keyword",
+      "keywords": ["aide", "help", "assistance"],
+      "action": "start_conversation"
+    },
+    {
+      "type": "scheduled",
+      "schedule": "0 9 * * 1",
+      "action": "send_weekly_report"
+    },
+    {
+      "type": "event",
+      "event_name": "ticket_created",
+      "action": "notify_agent"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Microsoft Teams",
+      "type": "channel",
+      "enabled": true
+    },
+    {
+      "name": "Microsoft 365",
+      "type": "service",
+      "enabled": true
+    },
+    {
+      "name": "Power Automate",
+      "type": "workflow",
+      "enabled": true
+    }
+  ],
+  "security": {
+    "authentication": "azure_ad",
+    "authorization": "rbac",
+    "encryption": "tls_1.3",
+    "data_residency": "EU"
+  },
+  "limits": {
+    "max_conversation_length": 100,
+    "rate_limit": "1000/hour",
+    "concurrent_users": 1000
+  },
+  "monitoring": {
+    "telemetry": true,
+    "logging_level": "info",
+    "analytics": true
+  }
+}
