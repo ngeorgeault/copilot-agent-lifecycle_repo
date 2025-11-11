@@ -1,0 +1,67 @@
+/**
+ * File: production.json
+ * Description: Configuration pour l'environnement de production
+ * Author: Microsoft Copilot Studio Team
+ * Date: 2025-11-11
+ * Version: 1.0.0
+ * License: MIT
+ * 
+ * Configuration sécurisée pour l'environnement de production.
+ */
+
+{
+  "environment": "production",
+  "debug": false,
+  "logging": {
+    "level": "warn",
+    "console": false,
+    "file": true,
+    "path": "/var/log/copilot/production.log",
+    "azure_insights": true
+  },
+  "api": {
+    "base_url": "https://api.copilot-studio.azure.com",
+    "timeout": 10000,
+    "retry_attempts": 5
+  },
+  "database": {
+    "host": "${DB_HOST}",
+    "port": 5432,
+    "name": "copilot_prod",
+    "ssl": true,
+    "pool_size": 20
+  },
+  "cache": {
+    "enabled": true,
+    "type": "redis",
+    "host": "${REDIS_HOST}",
+    "port": 6379,
+    "ttl": 3600
+  },
+  "security": {
+    "cors": {
+      "enabled": true,
+      "origins": ["https://portal.copilot-studio.com"]
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "max_requests": 1000,
+      "window_ms": 3600000
+    },
+    "encryption": {
+      "algorithm": "AES-256-GCM",
+      "key_rotation_days": 90
+    }
+  },
+  "monitoring": {
+    "health_check_interval": 60000,
+    "metrics_enabled": true,
+    "alerts_enabled": true
+  },
+  "scaling": {
+    "auto_scale": true,
+    "min_instances": 2,
+    "max_instances": 10,
+    "target_cpu_percent": 70
+  }
+}

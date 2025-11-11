@@ -1,0 +1,232 @@
+/**
+ * File: agent-schema.json
+ * Description: Schéma JSON pour valider les manifestes d'agents
+ * Author: Microsoft Copilot Studio Team
+ * Date: 2025-11-11
+ * Version: 1.0.0
+ * License: MIT
+ * 
+ * Schéma de validation pour garantir la conformité des configurations d'agents.
+ */
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://copilot-studio.microsoft.com/schemas/agent-manifest.json",
+  "title": "Microsoft Copilot Studio Agent Manifest",
+  "description": "Schema for Microsoft Copilot Studio Agent configuration",
+  "type": "object",
+  "required": ["schema_version", "agent", "capabilities", "configuration"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Version du schéma utilisé"
+    },
+    "agent": {
+      "type": "object",
+      "required": ["id", "name", "type", "version"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Identifiant unique de l'agent"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Nom de l'agent"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["light", "full"],
+          "description": "Type d'agent"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "description": "Version de l'agent (semver)"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "last_modified": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["natural_language"],
+      "properties": {
+        "natural_language": {
+          "type": "boolean"
+        },
+        "task_automation": {
+          "type": "boolean"
+        },
+        "custom_actions": {
+          "type": "boolean"
+        },
+        "multi_turn_conversation": {
+          "type": "boolean"
+        },
+        "context_retention": {
+          "type": "string",
+          "enum": ["none", "session", "persistent"]
+        },
+        "advanced_analytics": {
+          "type": "boolean"
+        },
+        "integrations": {
+          "type": "boolean"
+        },
+        "custom_plugins": {
+          "type": "boolean"
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "required": ["max_tokens", "temperature", "language"],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "response_format": {
+          "type": "string",
+          "enum": ["text", "json", "adaptive"]
+        },
+        "language": {
+          "type": "string",
+          "pattern": "^[a-z]{2}-[A-Z]{2}$"
+        },
+        "fallback_language": {
+          "type": "string",
+          "pattern": "^[a-z]{2}-[A-Z]{2}$"
+        },
+        "streaming": {
+          "type": "boolean"
+        },
+        "function_calling": {
+          "type": "boolean"
+        }
+      }
+    },
+    "knowledge_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "name"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["static", "dynamic", "api", "database"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string",
+            "format": "uri"
+          },
+          "connection_string": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["custom", "plugin", "builtin"]
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "plugin_id": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "action"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["keyword", "scheduled", "event"]
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "schedule": {
+            "type": "string"
+          },
+          "event_name": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "max_conversation_length": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rate_limit": {
+          "type": "string",
+          "pattern": "^[0-9]+/(second|minute|hour|day)$"
+        },
+        "concurrent_users": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

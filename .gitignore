@@ -1,0 +1,79 @@
+# File: .gitignore
+# Description: Fichiers et dossiers à ignorer par Git
+# Author: Microsoft Copilot Studio Team
+# Date: 2025-11-11
+# Version: 1.0.0
+
+# Dependencies
+node_modules/
+bower_components/
+vendor/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+.pytest_cache/
+
+# Azure
+*.publishsettings
+.azure/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Configuration locale
+config/local.json
+config/*.local.json
+
+# Secrets
+secrets/
+*.key
+*.pem
+*.p12
+
+# Backup files
+*.bak
+*.backup
