@@ -43,7 +43,8 @@ copilot-agent-lifecycle_repo/
 ├── docs/                  # Documentation
 │   ├── architecture/      # Documentation d'architecture
 │   ├── guides/           # Guides pratiques
-│   └── api/              # Référence API
+│   ├── api/              # Référence API
+│   └── glossary.md       # Glossaire des termes importants
 ├── examples/              # Exemples de code
 │   ├── light/            # Exemples Agent Light
 │   └── full/             # Exemples Agent Full
